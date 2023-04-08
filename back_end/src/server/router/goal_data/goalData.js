@@ -143,6 +143,13 @@ router.get('/yearly', async (req, res) => {
   let m10 = 0
   let m11 = 0
   let m12 = 0
+/*  const months = [];
+  for(let i = 0; i < 12; i++){
+    const start = moment().startOf('month').subtract(i, 'month');
+    const end = i === 0 ? moment().subtract(1, 'days') : moment().endOf('month').subtract(i, 'month');
+    months.push([id, start, end]);
+  }
+  console.log(months);*/
 
   const m1s = moment().startOf('month').subtract(0, 'month')
   // m1 is goooood

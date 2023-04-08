@@ -22,11 +22,13 @@ const validateUserPreppedQuery = (user) => {
   };
 }
 
+// /api/users POST <- login
 router.post('/', async (req,res) => {
   try {
     console.log(req.body)
     const dbQuery = await client.query(validateUserPreppedQuery([req.body.email]))
-      if(await bcrypt.compare(req.body.password, dbQuery.rows[0].password)){
+    const user = dbQuery.rows[0];
+      if(await bcrypt.compare(req.body.password, user.password)){
 
       console.log('password matches')
         req.session.user = {
@@ -38,7 +40,7 @@ router.post('/', async (req,res) => {
         res.json({msg: 'logged in', username: dbQuery.rows[0].username, id: dbQuery.rows[0].id})
         res.status(200)
     }
-    console.log(dbQuery.rows[0])
+    console.log(user)
   } catch (e) {
     console.log(e)
     res.status(400)
@@ -67,14 +69,16 @@ const createUserPreppedQuery = (user) => {
 router.post('/create', async (req, res) => {
   //{username: 'name', password: 'password', email: '@gmail'}
   console.log('here', req.body);
+  // optional use yup validation
+  // https://github.com/jquense/yup
+  if(!req.body.username || !req.body.email || !req.body.password){
+    console.log('incorrect data supplied')
+    res.status(400)
+    return
+  }
+
   try {
-    if(!req.body.username || !req.body.email || !req.body.password){
-      console.log('incorrect data supplied')
-      res.status(400)
-      return
-    }
-    const emailZero = [req.body.email]
-    const userExists = await client.query(userExistsQuery(emailZero))
+    const userExists = await client.query(userExistsQuery([req.body.email]))
     if(userExists.rowCount){
       console.log('user exists')
       res.json({msg: 'user exists, shut it down'})
@@ -82,23 +86,19 @@ router.post('/create', async (req, res) => {
       return
     }
 
+    const hashedPassword = await saltHash(req.body.password)
+    const newUser = [req.body.username, req.body.email, hashedPassword]
+    const dbQuery = await client.query(createUserPreppedQuery(newUser))
+    const user = dbQuery.rows[0];
+    console.log(user)
+    console.log('making new user')
+    res.json({msg: 'new user created', id: user.id})
+    res.status(200)
+
   } catch (e) {
     console.log(e)
     res.status(400)
     return
-  }
-  try {
-    const hashedPassword = await saltHash(req.body.password)
-    const newUser = [req.body.username, req.body.email, hashedPassword]
-    const dbQuery = await client.query(createUserPreppedQuery(newUser))
-    const row = dbQuery.rows[0];
-    console.log(row)
-    console.log('making new user')
-    res.json({msg: 'new user created', id: row.id})
-    res.status(200)
-  } catch (e) {
-    console.log(e)
-    res.status(400)
   }
 })
 
@@ -113,6 +113,7 @@ router.patch('/', async(req,res) => {
 });
 
 
+// /api/user/delete DELETE <- delete the user
 router.delete('/delete', async (req,res) => {
   try {
     req.session.destroy()

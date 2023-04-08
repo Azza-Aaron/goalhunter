@@ -29,6 +29,7 @@ const sessionConfig = {
 app.use(express.json())
 app.use(session(sessionConfig))
 
+//optional intermeddiate router with `/api` and then sub routes for `/user`
 app.use('/api/user', createUser)
 app.use('/api/goals', goalData)
 app.use('/api/friends', friendData)
