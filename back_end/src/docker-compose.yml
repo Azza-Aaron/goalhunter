@@ -1,0 +1,22 @@
+# Use postgres/example user/password credentials
+#default user is postgres
+version: '3.1'
+
+services:
+
+  database:
+    image: postgres:15.2
+    restart: "no"
+    environment:
+      POSTGRES_PASSWORD: password
+    volumes:
+      - "/var/run/postgres/postgres.sock:/var/run/postgres/postgres.sock"
+      - "./volume/dbdata:/var/lib/postgresql/data"
+    ports:
+      - 5432:5432
+
+  adminer:
+    image: adminer
+    restart: "no"
+    ports:
+      - 8080:8080
