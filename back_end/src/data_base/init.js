@@ -32,7 +32,6 @@ CREATE TABLE IF NOT EXISTS "message_notifications"
 )`;
 
 
-
 const createGoalTypes = `
 CREATE TABLE IF NOT EXISTS "goal_types"
 (

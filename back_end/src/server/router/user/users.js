@@ -32,12 +32,12 @@ router.post('/', async (req,res) => {
 
       console.log('password matches')
         req.session.user = {
-          name: dbQuery.rows[0].username,
-          id: dbQuery.rows[0].id,
+          name: user.username,
+          id: user.id,
           somethingNew: 'new stuff here',
           verified: true
         }
-        res.json({msg: 'logged in', username: dbQuery.rows[0].username, id: dbQuery.rows[0].id})
+        res.json({msg: 'logged in', username: user.username, id: user.id})
         res.status(200)
     }
     console.log(user)
@@ -105,9 +105,10 @@ router.post('/create', async (req, res) => {
 router.patch('/', async(req,res) => {
   try {
     console.log('updating user')
+    res.status(501)
   } catch (err) {
     console.log(err);
-    res.status(500);
+    res.status(501);
     res.json({ err: "something went wrong" });
   }
 });

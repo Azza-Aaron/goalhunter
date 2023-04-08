@@ -109,10 +109,14 @@ router.get('/monthly', async (req, res) => {
     const fourthMonth = await dbClient.query(dateRangeQuery(queryFourthMonth))
     console.log(thisMonth.rows.length)
 
-    thisMonth.rows.forEach((row) => { thisM ++ })
-    lastMonth.rows.forEach((row) => { lastM ++ })
-    thirdMonth.rows.forEach((row) => { befLM ++ })
-    fourthMonth.rows.forEach((row) => { befBLM ++ })
+    //thisMonth.rows.forEach((row) => { thisM ++ })
+    thisM = thisMonth.rows.length;
+    //lastMonth.rows.forEach((row) => { lastM ++ })
+    lastM = lastMonth.rows.length
+    //thirdMonth.rows.forEach((row) => { befLM ++ })
+    befLM = thirdMonth.rows.length
+    //fourthMonth.rows.forEach((row) => { befBLM ++ })
+    befBLM = fourthMonth.rows.length
 
     const monthlyList = [befBLM, befLM, lastM, thisM]
     res.json( {data: monthlyList} )
@@ -213,18 +217,30 @@ router.get('/yearly', async (req, res) => {
     const m11db = await dbClient.query(dateRangeQuery(m11q))
     const m12db = await dbClient.query(dateRangeQuery(m12q))
 
-    m1db.rows.forEach((row) => { m1 ++ })
-    m2db.rows.forEach((row) => { m2 ++ })
-    m3db.rows.forEach((row) => { m3 ++ })
-    m4db.rows.forEach((row) => { m4 ++ })
-    m5db.rows.forEach((row) => { m5 ++ })
-    m6db.rows.forEach((row) => { m6 ++ })
-    m7db.rows.forEach((row) => { m7 ++ })
-    m8db.rows.forEach((row) => { m8 ++ })
-    m9db.rows.forEach((row) => { m9 ++ })
-    m10db.rows.forEach((row) => { m10 ++ })
-    m11db.rows.forEach((row) => { m11 ++ })
-    m12db.rows.forEach((row) => { m12 ++ })
+   // m1db.rows.forEach((row) => { m1 ++ })
+    m1 = m1db.rows.length
+   // m2db.rows.forEach((row) => { m2 ++ })
+    m2 = m2db.rows.length
+    //m3db.rows.forEach((row) => { m3 ++ })
+    m3 = m3db.rows.length
+    //m4db.rows.forEach((row) => { m4 ++ })
+    m4 = m4db.rows.length
+   // m5db.rows.forEach((row) => { m5 ++ })
+    m5 = m5db.rows.length
+   // m6db.rows.forEach((row) => { m6 ++ })
+    m6 = m6db.rows.length
+   // m7db.rows.forEach((row) => { m7 ++ })
+    m7 = m7db.rows.length
+    //m8db.rows.forEach((row) => { m8 ++ })
+    m8 = m8db.rows.length
+    //m9db.rows.forEach((row) => { m9 ++ })
+    m9 = m9db.rows.length
+    //m10db.rows.forEach((row) => { m10 ++ })
+    m10 = m10db.rows.length
+    //m11db.rows.forEach((row) => { m11 ++ })
+    m11 = m11db.rows.length
+    //m12db.rows.forEach((row) => { m12 ++ })
+    m12 = m12db.rows.length
 
     const yearlyList = [m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12]
     yearlyList.reverse()
@@ -326,8 +342,8 @@ router.get('/goal/types', async (req,res) => {
     console.log('types started')
     const id = [req.session.user.id]
     const getUserGoals = await dbClient.query(goalTypesQuery(id))
-    const goalList = []
-    getUserGoals.rows.forEach((goal)=> goalList.push({id: goal.id, text: goal.goal}))
+    //const goalList = []
+    const goalList = getUserGoals.rows.map((goal)=> ({id: goal.id, text: goal.goal}))
     const thisUser = req.session.user.name
     res.json({goalTypes: goalList, user: thisUser})
     res.status(200)
