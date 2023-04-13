@@ -6,7 +6,7 @@ const monthCharting = async (id) => {
   const promises = [];
   for(let i = 0; i < 3; i++){
     let start = moment().startOf('week').subtract(i, 'week')
-    let end = i === 0 ? moment().subtract(1, 'days') : moment(start).endOf('week');
+    let end = i === 0 ? moment().subtract(1, 'day') : moment(start).endOf('week');
     if(start.isSame(new moment(), 'day')){
       console.log('is same, set no value return')
       start = moment('2000-01-01')
