@@ -29,35 +29,36 @@ const completeFriendData = async (userId, format) => {
   const friendInfo = await getMyFriendsUsernames(friendsIds)
   console.log('my friends info = ', friendInfo)
   const promises = []
+  let week
   switch (format) {
     case "day":
       for (let i = 0; i < friendsIds.length; i++) {
-        const week = await friendDayCharting(friendsIds[i])
+        week = await friendDayCharting(friendsIds[i])
         promises.push(week)
       }
       break
     case "week":
       for (let i = 0; i < friendsIds.length; i++) {
-        const week = await weekCharting(friendsIds[i])
+        week = await weekCharting(friendsIds[i])
         promises.push(week)
       }
       break
     case "month":
       for (let i = 0; i < friendsIds.length; i++) {
-        const month = await monthCharting(friendsIds[i])
-        promises.push(month)
+        week = await monthCharting(friendsIds[i])
+        promises.push(week)
       }
       break
     case "year":
       for (let i = 0; i < friendsIds.length; i++) {
-        const week = await yearCharting(friendsIds[i])
+        week = await yearCharting(friendsIds[i])
         promises.push(week)
       }
       break
   }
-  const returnedProms = await Promise.all(promises)
-  console.log('returned promies should have 4 ', returnedProms[1])
-  return returnedProms.map((array, index) =>
+  await Promise.all(promises)
+  console.log('my datast', week)
+  return week.map((array, index) =>
     ({name:friendInfo[index].name, list:array})
   )
 }
