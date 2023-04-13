@@ -17,7 +17,8 @@ router.get('/get/messages', async (req, res) => {
   const id = req.session.user.id
   try{
     const allMyMessages = await dbClient.query(getAllMyMessages([id]))
-    const list = allMyMessages.rows.map((row) => ({status: row.status, message: `${row.from_user} says: ${row.message}`, date: row.date_time}))
+    const list = allMyMessages.rows.map((row) => ({status: row.status, message: row.message, date: row.date_time, username: row.from_user}))
+    console.log('returning list is ', list)
     res.json({msg: 'all messages of user', list: list})
     res.status(200)
   } catch (e) {

@@ -168,6 +168,7 @@ const deleteBond = (bond) => {
 }
 
 router.delete('/reject', async (req, res) => {
+  console.log(req.body.id)
   const bond = [req.body.id, req.session.user.id,]
   try {
     const removeRequest = await dbClient.query(deleteBond(bond))

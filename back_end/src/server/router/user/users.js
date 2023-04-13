@@ -28,21 +28,31 @@ router.post('/', async (req,res) => {
     console.log(req.body)
     const dbQuery = await client.query(validateUserPreppedQuery([req.body.email]))
     const user = dbQuery.rows[0];
-      if(await bcrypt.compare(req.body.password, user.password)){
-
-      console.log('password matches')
-        req.session.user = {
-          name: user.username,
-          id: user.id,
-          somethingNew: 'new stuff here',
-          verified: true
-        }
-        res.json({msg: 'logged in', username: user.username, id: user.id})
-        res.status(200)
+    if(user === undefined){
+      console.log('not on server')
+      res.json({msg: 'user not on on server'})
+      res.status(400)
+      return
     }
+    if(await bcrypt.compare(req.body.password, user.password)){
+      console.log('password matches')
+      req.session.user = {
+        name: user.username,
+        id: user.id,
+        somethingNew: 'new stuff here',
+        verified: true
+      }
+      res.json({msg: 'logged in', username: user.username, id: user.id})
+      res.status(200)
+    } else {
+        res.json({msg: 'wrong password'})
+        res.status(400)
+      return
+      }
     console.log(user)
   } catch (e) {
     console.log(e)
+    res.json({msg: 'error'})
     res.status(400)
   }
 })
