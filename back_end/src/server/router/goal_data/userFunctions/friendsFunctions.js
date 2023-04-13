@@ -44,8 +44,8 @@ const completeFriendData = async (userId, format) => {
       break
     case "month":
       for (let i = 0; i < friendsIds.length; i++) {
-        const week = await monthCharting(friendsIds[i])
-        promises.push(week)
+        const month = await monthCharting(friendsIds[i])
+        promises.push(month)
       }
       break
     case "year":

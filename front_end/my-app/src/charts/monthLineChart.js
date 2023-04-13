@@ -30,11 +30,7 @@ export const MonthlyChart = ({todayValues, user}) => {
   const [monthData, setMonthData] = useState([])
   const initMonthly = async () => {
     let dbMonthlyList = await callMonthlyData()
-    console.log('user monthly datat from server before day value')
-    console.log(todayValues[todayValues.length - 1])
     dbMonthlyList[3] = dbMonthlyList[3] + todayValues[todayValues.length - 1]
-    console.log('user monthly datat from server after day value', dbMonthlyList[3])
-    console.log('user monthly datat from server after day value in full', dbMonthlyList)
     const userDataset = {
       label: user,
       data: dbMonthlyList,
@@ -47,11 +43,14 @@ export const MonthlyChart = ({todayValues, user}) => {
   const initMonthFriends = async (userDataset) => {
     const myFriendsMonthData = await friendData('month')
     const myFriendsDayData = await friendData('day')
-    for (let i = 0; i < myFriendsMonthData.friendData.length; i++) {
+    const friendsLength =  myFriendsMonthData.friendData.length
+    for (let i = 0; i < friendsLength; i++) {
       console.log('my friend in loop ', myFriendsMonthData.friendData[i])
-      myFriendsMonthData.friendData[i].list[3] = myFriendsMonthData.friendData[i].list[3] + myFriendsDayData.friendData[i].list[myFriendsDayData.friendData[i].list.length -1]
+      const friendDay = myFriendsDayData.friendData[i]
+      const dayVal = friendDay.list[friendDay.list.length -1]
+      myFriendsMonthData.friendData[i].list[3] += dayVal
     }
-    const myFriendDataSet = myFriendsMonthData.friendData.map((friend) => {
+    const resultDataSet = myFriendsMonthData.friendData.map((friend) => {
       const colour = coloursForDataset()
       return (
         {
@@ -62,9 +61,9 @@ export const MonthlyChart = ({todayValues, user}) => {
         }
       )
     })
-    myFriendDataSet.push(userDataset)
-    setMonthData(myFriendDataSet)
-    console.log('my friend data ends here ', myFriendsMonthData)
+    resultDataSet.push(userDataset)
+    setMonthData(resultDataSet)
+    console.log('my friend data ends here ', resultDataSet)
   }
 
   useEffect( () => {
