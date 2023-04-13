@@ -9,7 +9,10 @@ const config = process.env.NODE_ENV === 'dev' ? {
   database: process.env.DB ?? "postgres",
   password: process.env.DB_PASSWORD ?? "password",
   port: process.env.DB_PORT ?? 5432,
-} : {connectionString: process.env.DATABASE_URL}
+} : {
+  connectionString: process.env.DATABASE_URL,
+  ssl: true
+}
 
 const client = new Client(config)
 client.connect();
