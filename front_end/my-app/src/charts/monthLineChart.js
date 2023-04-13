@@ -49,7 +49,7 @@ export const MonthlyChart = ({todayValues, user}) => {
     const myFriendsDayData = await friendData('day')
     for (let i = 0; i < myFriendsMonthData.friendData.length; i++) {
       console.log('my friend in loop ', myFriendsMonthData.friendData[i])
-      myFriendsMonthData.friendData[i].list.push(myFriendsDayData.friendData[i].list)
+      myFriendsMonthData.friendData[i].list[3] = myFriendsMonthData.friendData[i].list[3] + myFriendsDayData.friendData[i].list[myFriendsDayData.friendData[i].list.length -1]
     }
     const myFriendDataSet = myFriendsMonthData.friendData.map((friend) => {
       const colour = coloursForDataset()
