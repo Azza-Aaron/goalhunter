@@ -40,10 +40,10 @@ app.use('/api/messages', messageData)
 
 //SERVE REACT AFTER BUILD
 
-console.log(path.join(__dirname, '..', 'public'));
-app.use(express.static(path.join(__dirname, '..', 'public')))
+console.log(path.join(__dirname, '..', '..', 'public'));
+app.use(express.static(path.join(__dirname, '..', '..', 'public')))
 app.get('(/*)?', async (req, res, next) => {
-  res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, '..', '..', 'public', 'index.html'));
 });
 
 const PORT = process.env.PORT || 5000
