@@ -4,7 +4,7 @@ const {dateRangeQuery} = require("../../../model/goal_data")
 
 const monthCharting = async (id) => {
   const promises = [];
-  for(let i = 0; i < 4; i++){
+  for(let i = 0; i < 3; i++){
     let start = moment().startOf('week').subtract(i, 'week')
     let end = i === 0 ? moment().subtract(1, 'days') : moment(start).endOf('week');
     if(start.isSame(new moment(), 'day')){
