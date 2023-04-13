@@ -20,7 +20,7 @@ const monthCharting = async (id) => {
   }
   const returnedMonths = await Promise.all(promises)
   console.log('moths', returnedMonths)
-  const months = returnedMonths.map((month) => month.rows.length)
+  const months = returnedMonths.map((month) => month.rowCount)
   return months.reverse()
 }
 
