@@ -31,6 +31,7 @@ export const MonthlyChart = ({todayValues, user}) => {
   const initMonthly = async () => {
     let dbMonthlyList = await callMonthlyData()
     console.log('user monthly datat from server before day value')
+    console.log(todayValues[todayValues.length - 1])
     dbMonthlyList[3] = dbMonthlyList[3] + todayValues[todayValues.length - 1]
     console.log('user monthly datat from server after day value', dbMonthlyList[3])
     console.log('user monthly datat from server after day value in full', dbMonthlyList)
