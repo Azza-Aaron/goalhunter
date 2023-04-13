@@ -56,7 +56,7 @@ const completeFriendData = async (userId, format) => {
       break
   }
   const returnedProms = await Promise.all(promises)
-  console.log('returned promies', returnedProms)
+  console.log('returned promies should have 4 ', returnedProms[1])
   return returnedProms.map((array, index) =>
     ({name:friendInfo[index].name, list:array})
   )
