@@ -1,5 +1,6 @@
 const {dbClient} = require("../../../../data_base");
-const {goalFriendsQuery, friendsUsernameQuery} = require("../../../model/clientQueries");
+const {friendsUsernameQuery} = require("../../../model/user");
+const {goalFriendsQuery} = require('../../../model/friend')
 const {weekCharting} = require("../dataFunctions/weekchart.js");
 const {friendDayCharting} = require("../dataFunctions/daychart");
 const {monthCharting} = require("../dataFunctions/monthchart");

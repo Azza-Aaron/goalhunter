@@ -3,6 +3,7 @@ const router = express.Router();
 const {authGuard} = require("../../../middleware");
 const bcrypt = require('bcrypt')
 const {dbClient} = require("../../../data_base");
+const {validateUserPreppedQuery, userExistsQuery, createUserPreppedQuery} = require('../../model/user.js')
 const client = dbClient
 
 // BLOCK ROUTES - router.use(authGuard);
@@ -14,13 +15,13 @@ async function saltHash(password) {
   return bcrypt.hash(password, salt)
 }
 
-const validateUserPreppedQuery = (user) => {
+/*const validateUserPreppedQuery = (user) => {
   return {
     //name: 'insert-new-post',
     text: `SELECT * from public.user WHERE email = $1`,
     values: user
   };
-}
+}*/
 
 // /api/users POST <- login
 router.post('/', async (req,res) => {
@@ -58,7 +59,7 @@ router.post('/', async (req,res) => {
 })
 
 
-const userExistsQuery = (email) => {
+/*const userExistsQuery = (email) => {
   return {
     //name: 'insert-new-post',
     text: `SELECT id from public.user WHERE email = $1`,
@@ -74,7 +75,7 @@ const createUserPreppedQuery = (user) => {
            RETURNING id`,
     values: user
   };
-}
+}*/
 
 router.post('/create', async (req, res) => {
   //{username: 'name', password: 'password', email: '@gmail'}
@@ -108,7 +109,6 @@ router.post('/create', async (req, res) => {
   } catch (e) {
     console.log(e)
     res.status(400)
-    return
   }
 })
 

@@ -6,10 +6,14 @@ const moment = require('moment')
 const {dbClient} = require("../../../data_base");
 const {weekCharting} = require("../goal_data/dataFunctions/weekchart.js")
 const {monthCharting} = require("../goal_data/dataFunctions/monthchart.js")
-const {dateRangeQuery, goalFriendsQuery} = require("../../model/clientQueries.js")
+//const {dateRangeQuery, goalFriendsQuery} = require("../../model/clientQueries.js")
+const {dateRangeQuery} = require("../../model/goal_data.js")
 const {yearCharting} = require("./dataFunctions/yearchart");
 const {myDayCharting} = require("./dataFunctions/daychart");
 const {completeFriendData} = require("./userFunctions/friendsFunctions");
+const {addGoalType, goalTypesQuery} = require('../../model/goal_types.js')
+const {addGoalPoint, todayQuery, deleteTodayPoint} = require('../../model/goal_data.js')
+
 
 // BLOCK ROUTES - router.use(authGuard);
 
@@ -101,7 +105,7 @@ router.get('/', async (req,res) => {
   }
 })
 
-const addGoalType = (type) => {
+/*const addGoalType = (type) => {
   return {
     text: `INSERT INTO public.goal_types (goal, user_id)
            VALUES ($1, $2)
@@ -141,7 +145,7 @@ const goalTypesQuery = (data) => {
     text: `SELECT * FROM public.goal_types WHERE user_id = $1`,
     values: data
   };
-}
+}*/
 
 router.get('/goal/types', async (req,res) => {
   try {

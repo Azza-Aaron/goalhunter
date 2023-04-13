@@ -73,19 +73,6 @@ CREATE TABLE IF NOT EXISTS  "friend_data"
             REFERENCES "user"(id)
 )`
 
-/*
-  who created the message
-  who the message is to
-  what is the premade message id <- similar to the goal types
-  is the message read
- */
-// { //todo make table
-//   message_owner_id: int,
-//   message_recipeint_id: int,
-//   message_id: int, //foriegn key to premade message table //todo make premade table
-//   message_read: boolean
-// }
-
 const arrayMessages = [
   "Great work!",
   "Keep it up!",

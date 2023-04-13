@@ -1,6 +1,6 @@
 const moment = require("moment/moment");
 const {dbClient} = require("../../../../data_base");
-const {dateRangeQuery} = require("../../../model/clientQueries.js")
+const {dateRangeQuery} = require("../../../model/goal_data")
 
 
 

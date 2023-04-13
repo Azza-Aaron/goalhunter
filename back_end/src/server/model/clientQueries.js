@@ -1,3 +1,4 @@
+/*
 
 const dateRangeQuery = (dateRange) => {
   return {
@@ -27,4 +28,4 @@ module.exports = {
   dateRangeQuery,
   goalFriendsQuery,
   friendsUsernameQuery
-}
+}*/

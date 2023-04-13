@@ -3,31 +3,32 @@ const router = express.Router();
 const {authGuard} = require("../../../middleware");
 const moment = require('moment')
 const {dbClient} = require("../../../data_base");
-
+const {updateBond, deleteBond, pendingBond, listFriendsQuery, testBond, insertFriendRequest} = require('../../model/friend')
+const { selectUser, myFriendQuery } = require('../../model/user')
 router.use(authGuard)
 
-const selectUser = (user) => {
+/*const selectUser = (user) => {
   return {
     text: `SELECT id from public.user WHERE email = $1`,
     values: user
   };
-}
+}*/
 
-const insertFriendRequest = (bond) => {
+/*const insertFriendRequest = (bond) => {
   return {
     //name: 'insert-new-post',
     text: `INSERT INTO public.friend_data (friend_id, user_id, status)
            VALUES ($1, $2, $3)`,
     values: bond
   };
-}
+}*/
 
-const testBond = (eBond) => {
+/*const testBond = (eBond) => {
   return {
     text: `SELECT status from public.friend_data WHERE friend_id = $1 AND user_id = $2`,
     values: eBond
   };
-}
+}*/
 
 router.post('/request', async(req,res) => {
   console.log('trying')
@@ -73,19 +74,19 @@ router.post('/request', async(req,res) => {
   }
 });
 
-const listFriendsQuery = (user) => {
+/*const listFriendsQuery = (user) => {
   return {
     text: 'SELECT * from public.friend_data WHERE friend_id = $1 AND status = $2 OR user_id = $1 AND status = $2',
     values: user
   }
-}
+}*/
 
-const myFriendQuery = (id) => {
+/*const myFriendQuery = (id) => {
   return {
     text: 'SELECT * from "user" WHERE id = $1',
     values: id
   }
-}
+}*/
 
 router.get('/myfriends', async(req, res) => {
   try{
@@ -120,12 +121,12 @@ router.get('/myfriends', async(req, res) => {
   }
 })
 
-const pendingBond = (user) => {
+/*const pendingBond = (user) => {
   return {
     text: 'SELECT user_id from public.friend_data WHERE friend_id = $1 AND status = $2',
     values: user
   };
-}
+}*/
 
 router.get('/myfriendrequests', async (req, res) => {
   const user = [req.session.user.id, 'pending']
@@ -159,13 +160,13 @@ router.get('/myfriendrequests', async (req, res) => {
   }
 })
 
-const deleteBond = (bond) => {
+/*const deleteBond = (bond) => {
   return{
     text: `DELETE FROM public.friend_data
            WHERE friend_id = $1 AND user_id = $2 OR friend_id = $2 AND  user_id = $1`,
     values: bond
   }
-}
+}*/
 
 router.delete('/reject', async (req, res) => {
   console.log(req.body.id)
@@ -182,14 +183,14 @@ router.delete('/reject', async (req, res) => {
   }
 })
 
-const updateBond = (bond) => {
+/*const updateBond = (bond) => {
   return {
     text: `UPDATE public.friend_data
           SET status = $3
           WHERE friend_id = $1 AND user_id = $2 OR friend_id = $2 AND  user_id = $1`,
     values: bond
   };
-}
+}*/
 
 
 router.post('/block', async (req, res) => {

@@ -3,14 +3,12 @@ const {checkLoggedInTable} = require("./init.js")
 const session = require("express-session");
 const pgSession = require('connect-pg-simple')(session)
 
-
-//todo get these from environment variables and can default to these
 const config = {
-  user: "postgres",
-  host: "localhost",
-  database: "postgres",
+  user: process.env.DB_USER ?? "postgres",
+  host: process.env.DB_HOST ?? "localhost",
+  database: process.env.DB ?? "postgres",
   password: process.env.DB_PASSWORD ?? "password",
-  port: 5432,
+  port: process.env.DB_PORT ?? 5432,
 }
 
 const client = new Client(config)

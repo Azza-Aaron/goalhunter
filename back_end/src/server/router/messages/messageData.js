@@ -3,15 +3,16 @@ const router = express.Router();
 const {authGuard} = require("../../../middleware");
 const {dbClient} = require("../../../data_base");
 const moment = require("moment")
+const {sendMessageQuery, updateMessageQuery, deleteMessageQuery, getAllMyMessages} = require('../../model/message_notifications.js')
 
 router.use(authGuard)
 
-const getAllMyMessages = (id) => {
+/*const getAllMyMessages = (id) => {
   return{
     text: 'SELECT * FROM public.message_notifications WHERE user_id = $1',
     values: id
   }
-}
+}*/
 
 router.get('/get/messages', async (req, res) => {
   const id = req.session.user.id
@@ -27,6 +28,7 @@ router.get('/get/messages', async (req, res) => {
   }
 })
 
+/*
 const sendMessageQuery = (message) => {
   return {
     //name: 'insert-new-post',
@@ -35,6 +37,7 @@ const sendMessageQuery = (message) => {
     values: message
   };
 }
+*/
 
 router.post('/send/message', async (req, res) => {
   const user = req.session.user.name
@@ -67,14 +70,14 @@ router.post('/send/message', async (req, res) => {
   }
 })
 
-const updateMessageQuery = (status) => {
+/*const updateMessageQuery = (status) => {
   return {
     text: `UPDATE public.message_notifications
           SET status = $2
           WHERE user_id = $1 AND date_time = $3`,
     values: status
   };
-}
+}*/
 
 router.patch('/status', async (req, res) => {
   const userId = req.session.user.id
@@ -92,13 +95,13 @@ router.patch('/status', async (req, res) => {
   }
 })
 
-const deleteMessageQuery = (message) => {
+/*const deleteMessageQuery = (message) => {
   return{
     text: `DELETE FROM public.message_notifications
            WHERE user_id = $1 AND date_time = $2`,
     values: message
   }
-}
+}*/
 
 router.delete('/remove/message', async (req, res) => {
   try {
