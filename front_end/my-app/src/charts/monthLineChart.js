@@ -24,56 +24,50 @@ ChartJS.register(
   Legend
 );
 
-
-export const MonthlyChart = ({todayValues, user}) => {
-
-  const [monthData, setMonthData] = useState([])
-  const initMonthly = async () => {
-    let dbMonthlyList = await callMonthlyData()
-    dbMonthlyList[3] = dbMonthlyList[3] + todayValues[todayValues.length - 1]
-    const userDataset = {
-      label: user,
-      data: dbMonthlyList,
-      borderColor: 'rgb(47,255,0)',
-      backgroundColor: 'rgba(47,255,0, 0.5)',
-    }
-    initMonthFriends(userDataset)
+const initMonthly = async (setMonthData, user, todayValues, myFriendsMonthData) => {
+  let dbMonthlyList = await callMonthlyData()
+  dbMonthlyList[3] = dbMonthlyList[3] + todayValues[todayValues.length - 1]
+  const userDataset = {
+    label: user,
+    data: dbMonthlyList,
+    borderColor: 'rgb(47,255,0)',
+    backgroundColor: 'rgba(47,255,0, 0.5)',
   }
+  await initMonthFriends(userDataset, setMonthData, myFriendsMonthData)
+}
 
-  const initMonthFriends = async (userDataset) => {
-    const myFriendsMonthData = await friendData('month')
-    const myFriendsDayData = await friendData('day')
-    const friendsLength =  myFriendsMonthData.friendData.length
-    for (let i = 0; i < friendsLength; i++) {
-      console.log('my friend in loop ', myFriendsMonthData.friendData[i])
-      const friendDay = myFriendsDayData.friendData[i]
-      const dayVal = friendDay.list[friendDay.list.length -1]
-      myFriendsMonthData.friendData[i].list[3] += dayVal
-    }
-    const resultDataSet = myFriendsMonthData.friendData.map((friend) => {
-      const colour = coloursForDataset()
-      return (
-        {
-          label: friend.name,
-          data: friend.list,
-          borderColor: `${colour}`,
-          backgroundColor: `${colour}`,
-        }
-      )
-    })
-    resultDataSet.push(userDataset)
-    setMonthData(resultDataSet)
-    console.log('my friend data ends here ', resultDataSet)
+const initMonthFriends = async (userDataset, setMonthData, myFriendsMonthData) => {
+  const myFriendsDayData = await friendData('day')
+  for (let i = 0; i < myFriendsMonthData.friendData.Length; i++) {
+    const friendDay = myFriendsDayData.friendData[i]
+    const dayVal = friendDay.list[friendDay.list.length -1]
+    myFriendsMonthData.friendData[i].list[3] += dayVal
   }
+  const resultDataSet = myFriendsMonthData.friendData.map((friend) => {
+    const colour = coloursForDataset()
+    return (
+      {
+        label: friend.name,
+        data: friend.list,
+        borderColor: `${colour}`,
+        backgroundColor: `${colour}`,
+      }
+    )
+  })
+  resultDataSet.push(userDataset)
+  setMonthData(resultDataSet)
+  console.log('my friend data ends here ', resultDataSet)
+}
 
+export const MonthlyChart = ({todayValues, user, myFriendsMonthData}) => {
+  const [monthData, setMonthData] = useState([0,0,0,0])
   useEffect( () => {
-    initMonthly()
+    initMonthly(setMonthData, user, todayValues, myFriendsMonthData)
   }, [todayValues])
 
-
-  const labels = ['4 Weeks Ago', '3 Weeks Ago', 'Last Week', 'This Week']
-  const data = {
-    labels,
+  const labels = () => ['4 Weeks Ago', '3 Weeks Ago', 'Last Week', 'This Week']
+  const chartData = {
+    labels: labels(),
     datasets: monthData
   }
   return (

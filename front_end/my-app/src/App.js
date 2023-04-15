@@ -31,6 +31,7 @@ export default function App() {
   const [user, setUser] = useState('')
   const [loginButton, setLoginButton] = useState('Login')
   const [scoreHeader, setScoreHeader] = useState('')
+  const [myFriendsMonthData, setMyFriendsMonthData] = useState([])
 
 
   const goalDataFromDb = async () => {
@@ -85,8 +86,14 @@ export default function App() {
     setDateList(newList);
   }
 
+  const getFriendsMonthData = async ()=> {
+    const getData = await friendData('month')
+    setMyFriendsMonthData(getData)
+  }
+
   useEffect(() => {
     goalDataFromDb()
+    getFriendsMonthData()
     prepChartButton()
   }, [loginButton])
 
@@ -153,7 +160,8 @@ export default function App() {
           <Col xl={12}>
             {myGraph === 'Today' ? <TodayChart todayLabels={todayLabels} todayValues={todayValues} user={user} /> : null}
             {myGraph === 'Weekly' ? <WeeklyChart todayValues={todayValues} user={user} /> : null}
-            {myGraph === 'Monthly' ? <MonthlyChart todayValues={todayValues} user={user}/> : null}
+            {myGraph === 'Monthly' ? <MonthlyChart todayValues={todayValues} user={user}
+                                                   myFriendsMonthData={myFriendsMonthData}/> : null}
             {myGraph === 'Yearly' ? <YearlyChart todayValues={todayValues} user={user} /> : null}
           </Col>
           <Col></Col>

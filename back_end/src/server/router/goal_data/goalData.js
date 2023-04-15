@@ -25,7 +25,8 @@ router.get('/friend/data', async (req,res) => {
   const userId = req.session.user.id
   try {
     const friendData = await completeFriendData(userId, format)
-    console.log(friendData)
+    console.log("friend data before it's sent back to front end", friendData)
+    //console.log(friendData)
     res.json({friendData})
     res.status(200)
   } catch (e) {

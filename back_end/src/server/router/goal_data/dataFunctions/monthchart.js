@@ -8,18 +8,14 @@ const monthCharting = async (id) => {
     let start = moment().startOf('week').subtract(i, 'week')
     let end = i === 0 ? moment().subtract(1, 'day') : moment(start).endOf('week');
     if(start.isSame(new moment(), 'day')){
-      console.log('is same, set no value return')
       start = moment('2000-01-01')
       end = moment('2000-01-01')
     }
-    console.log('start date ', start, 'number ', i)
-    console.log('end date ', end, 'number ', i)
     //months.push([id, start, end])
     const monthData = dbClient.query(dateRangeQuery([id, start, end]));
     promises.push(monthData)
   }
   const returnedMonths = await Promise.all(promises)
-  console.log('moths', returnedMonths)
   const months = returnedMonths.map((month) => month.rowCount)
   return months.reverse()
 }
