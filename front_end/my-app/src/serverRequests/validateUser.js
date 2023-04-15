@@ -17,7 +17,7 @@ export let userSchema = yup.object({
     .minNumbers(1, 'password must contain at least 1 number')
     //.minSymbols(1, 'password must contain at least 1 special character')
     .required()
-})
+}).required()
 
 
 export const validateUser = async (email, password, setValidFormText, setValidFormTextColor) => {

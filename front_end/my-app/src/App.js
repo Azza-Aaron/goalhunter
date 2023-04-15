@@ -14,6 +14,7 @@ import {NotLoggedInYet} from "./notLoggedIn";
 import {MainNavbar} from "./navbar/navbar";
 import {addGoalToDb} from "./serverRequests/addGoal";
 import {getTodayData} from "./serverRequests/goalTracking/getGoalScores";
+import {friendData} from "./charts/friendInit";
 
 const dateListBase = [{label: `Today`, class: "btn btn-primary"},
   {label: `Weekly`, class: "btn btn-primary"}, {label: `Monthly`, class: "btn btn-primary"},

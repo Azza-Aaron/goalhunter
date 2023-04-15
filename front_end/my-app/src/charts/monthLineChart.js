@@ -71,6 +71,6 @@ export const MonthlyChart = ({todayValues, user, myFriendsMonthData}) => {
     datasets: monthData
   }
   return (
-    <Line data={data} />
+    <Line data={chartData}  />
   )
 }

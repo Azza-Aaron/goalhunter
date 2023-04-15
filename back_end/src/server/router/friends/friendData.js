@@ -37,10 +37,19 @@ router.post('/request', async(req,res) => {
   let friendId
 
   try {
-    const getFriendId = await dbClient.query(selectUser([req.body.friendDetails.email]))
+    const getFriendId = await dbClient.query(selectUser([req.body.friendDetails.email])) //getFreindId
+    /*
+        try/catch throw new Error('no user with that email)
+     */
+
+    // hasExistingBond //boolean
+    /*
+        try/catch throw new Erro('bond test failed somewhere
+     */
+
     friendId = getFriendId.rows[0].id
   } catch (e) {
-    console.log(e, 'no user with that email')
+    console.log(e.message)
     res.json({msg: 'no user with that email'})
     res.status(400);
     return
