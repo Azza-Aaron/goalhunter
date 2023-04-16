@@ -28,7 +28,11 @@ export function FriendsModal({close}) {
   const sendEnc = async (friendId) => {
     const sentMessage = await sendMessageDb(friendId)
     const updateBox = document.getElementById(`encMsg${friendId}`)
-    updateBox.innerText = `You sent: ${sentMessage}`
+    if(sentMessage !== "Friends inbox is full, please try again later."){
+      updateBox.innerText = `You sent: ${sentMessage}`
+      return
+    }
+    updateBox.innerText = sentMessage
   }
 
   const friendsDisplay = friendsList.map((friend) => (

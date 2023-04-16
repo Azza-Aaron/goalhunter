@@ -50,7 +50,7 @@ router.post('/send/message', async (req, res) => {
     const messageNumber = checkMessages.map((row) => row.from_user === user ? user : null )
     if(messageNumber.length >= 10){
       console.log('message limit exceeded')
-      res.json({msg: 'too many messages from this user'})
+      res.json({message: 'Friends inbox is full, please try again later.'})
       res.status(200)
       return
     }
@@ -62,7 +62,7 @@ router.post('/send/message', async (req, res) => {
     const message = [user, randomMessage, "unread", friend, date]
     console.log(message)
     await dbClient.query(sendMessageQuery(message))
-    res.json({msg: 'message sent', message: message})
+    res.json({message: `${message[1]}`})
     res.status(200)
   } catch (e) {
     console.log(e)

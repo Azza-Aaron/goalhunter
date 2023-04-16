@@ -11,5 +11,5 @@ export async function sendMessageDb (e) {
   })
   const data = await sendMessage.json()
   console.log('response ', data)
-  return data.message[1]
+  return data.message
 }
