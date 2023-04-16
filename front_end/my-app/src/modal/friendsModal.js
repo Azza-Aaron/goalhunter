@@ -13,6 +13,7 @@ export function FriendsModal({close}) {
   const [addFriend, setAddFriend] = useState(false)
   const [friendsList, setFriendsList] = useState([''])
   const [requestFriend, setRequestFriend] = useState('')
+  const [requestButtonText, setRequestButtonText] = useState('Request')
 
 
   const getFriends = async () => {
@@ -64,6 +65,7 @@ export function FriendsModal({close}) {
     setFriendsList(editedList)
   }
 
+
   return (
     <div
       className="modal show"
@@ -82,11 +84,14 @@ export function FriendsModal({close}) {
               <input onBlur={(e)=>{setRequestFriend(e.target.value)}}></input>
               <Button style={{float: 'right'}}
                       onClick={() => {
-                        setAddFriend(false)
+                        setRequestButtonText('Sending')
                         friendRequestToDb(requestFriend)
-
+                        setTimeout(() => {
+                          setAddFriend(false)
+                          setRequestButtonText('Request')
+                        }, 1500)
                       }}
-              > Request </Button> </ListGroup.Item> : null}
+              > {requestButtonText} </Button> </ListGroup.Item> : null}
           </ListGroup>
         </Modal.Body>
       </Modal>
