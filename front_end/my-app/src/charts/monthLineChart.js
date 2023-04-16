@@ -24,7 +24,7 @@ ChartJS.register(
   Legend
 );
 
-const initMonthly = async (setMonthData, user, todayValues, myFriendsMonthData) => {
+const initMonthly = async (setMonthData, user, todayValues, myFriendsMonthData, coloursFriends) => {
   let dbMonthlyList = await callMonthlyData()
   dbMonthlyList[3] = dbMonthlyList[3] + todayValues[todayValues.length - 1]
   const userDataset = {
@@ -33,15 +33,16 @@ const initMonthly = async (setMonthData, user, todayValues, myFriendsMonthData) 
     borderColor: 'rgb(47,255,0)',
     backgroundColor: 'rgba(47,255,0, 0.5)',
   }
-  await initMonthFriends(userDataset, setMonthData, myFriendsMonthData)
+  await initMonthFriends(userDataset, setMonthData, myFriendsMonthData, coloursFriends)
 }
 
-const initMonthFriends = async (userDataset, setMonthData, myFriendsMonthData) => {
+const initMonthFriends = async (userDataset, setMonthData, myFriendsMonthData, coloursFriends) => {
   const myFriendsDayData = await friendData('day')
   for (let i = 0; i < myFriendsMonthData.friendData.length; i++) {
     const friendDay = myFriendsDayData.friendData[i]
     const dayVal = friendDay.list
     const sum = myFriendsMonthData.friendData[i].list[3] += dayVal
+    myFriendsMonthData.friendData[i].colour = coloursFriends[i]
   }
   const resultDataSet = myFriendsMonthData.friendData.map((friend) => {
     const colour = coloursForDataset()
@@ -49,8 +50,8 @@ const initMonthFriends = async (userDataset, setMonthData, myFriendsMonthData) =
       {
         label: friend.name,
         data: friend.list,
-        borderColor: `${colour}`,
-        backgroundColor: `${colour}`,
+        borderColor: `${friend.colour}`,
+        backgroundColor: `${friend.colour}`,
       }
     )
   })
@@ -59,10 +60,10 @@ const initMonthFriends = async (userDataset, setMonthData, myFriendsMonthData) =
   console.log('my friend data ends here ', resultDataSet)
 }
 
-export const MonthlyChart = ({todayValues, user, myFriendsMonthData}) => {
+export const MonthlyChart = ({todayValues, user, myFriendsMonthData, coloursFriends}) => {
   const [monthData, setMonthData] = useState([0,0,0,0])
   useEffect( () => {
-    initMonthly(setMonthData, user, todayValues, myFriendsMonthData)
+    initMonthly(setMonthData, user, todayValues, myFriendsMonthData, coloursFriends)
   }, [todayValues])
 
   const labels = () => ['4 Weeks Ago', '3 Weeks Ago', 'Last Week', 'This Week']

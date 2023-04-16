@@ -14,7 +14,7 @@ import {NotLoggedInYet} from "./notLoggedIn";
 import {MainNavbar} from "./navbar/navbar";
 import {addGoalToDb} from "./serverRequests/addGoal";
 import {getTodayData} from "./serverRequests/goalTracking/getGoalScores";
-import {friendData} from "./charts/friendInit";
+import {friendData, coloursForDataset} from "./charts/friendInit";
 
 const dateListBase = [{label: `Today`, class: "btn btn-primary"},
   {label: `Weekly`, class: "btn btn-primary"}, {label: `Monthly`, class: "btn btn-primary"},
@@ -33,6 +33,7 @@ export default function App() {
   const [loginButton, setLoginButton] = useState('Login')
   const [scoreHeader, setScoreHeader] = useState('')
   const [myFriendsMonthData, setMyFriendsMonthData] = useState([])
+  const [coloursFriends, setColoursFriends] = useState([])
 
 
   const goalDataFromDb = async () => {
@@ -89,6 +90,12 @@ export default function App() {
 
   const getFriendsMonthData = async ()=> {
     const getData = await friendData('month')
+    const colour = []
+    for (let i = 0; i < getData.friendData.length; i++) {
+      const newColour = coloursForDataset()
+      colour.push(newColour)
+    }
+    setColoursFriends(colour)
     setMyFriendsMonthData(getData)
   }
 
@@ -159,11 +166,11 @@ export default function App() {
         <Row className={"mt-3"}>
           <Col></Col>
           <Col xl={12}>
-            {myGraph === 'Today' ? <TodayChart todayLabels={todayLabels} todayValues={todayValues} user={user} /> : null}
-            {myGraph === 'Weekly' ? <WeeklyChart todayValues={todayValues} user={user} /> : null}
+            {myGraph === 'Today' ? <TodayChart todayLabels={todayLabels} todayValues={todayValues} user={user} coloursFriends={coloursFriends} /> : null}
+            {myGraph === 'Weekly' ? <WeeklyChart todayValues={todayValues} user={user} coloursFriends={coloursFriends} /> : null}
             {myGraph === 'Monthly' ? <MonthlyChart todayValues={todayValues} user={user}
-                                                   myFriendsMonthData={myFriendsMonthData}/> : null}
-            {myGraph === 'Yearly' ? <YearlyChart todayValues={todayValues} user={user} /> : null}
+                                                   myFriendsMonthData={myFriendsMonthData} coloursFriends={coloursFriends}/> : null}
+            {myGraph === 'Yearly' ? <YearlyChart todayValues={todayValues} user={user} coloursFriends={coloursFriends}/> : null}
           </Col>
           <Col></Col>
         </Row>

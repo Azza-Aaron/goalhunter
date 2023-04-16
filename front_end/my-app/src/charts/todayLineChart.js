@@ -38,11 +38,12 @@ export const transformDayData = (daysData) => {
   return {labels: labelList, values: valuesList}
 }
 
-const initTodayFriend = async (userDataset, setMyDataset, todayValues) => {
+const initTodayFriend = async (userDataset, setMyDataset, todayValues, coloursFriends) => {
   let myFriendsDayData = await friendData('day')
   const todayLength = todayValues.length -1
   for (let i = 0; i < myFriendsDayData.friendData.length; i++) {
     const score = [myFriendsDayData.friendData[i].list]
+    myFriendsDayData.friendData[i].colour = coloursFriends[i]
     for (let j = 0; j < todayValues.length; j++) {
       if(todayLength === j) {break}
       score.unshift(0)
@@ -56,8 +57,8 @@ const initTodayFriend = async (userDataset, setMyDataset, todayValues) => {
       {
         label: friend.name,
         data: friend.list,
-        borderColor: `${colour}`,
-        backgroundColor: `${colour}`,
+        borderColor: `${friend.colour}`,
+        backgroundColor: `${friend.colour}`,
       }
     )
   })
@@ -66,7 +67,7 @@ const initTodayFriend = async (userDataset, setMyDataset, todayValues) => {
   console.log('my friend data ends here ', myFriendsDayData.friendData[0])
 }
 
-export const TodayChart = ({todayLabels, todayValues, user}) => {
+export const TodayChart = ({todayLabels, todayValues, user, coloursFriends}) => {
   const [myDataset, setMyDataset] = useState([])
   const userDataset =   {
     label: user,
@@ -76,7 +77,7 @@ export const TodayChart = ({todayLabels, todayValues, user}) => {
   }
 
   useEffect(() => {
-    initTodayFriend(userDataset, setMyDataset, todayValues)
+    initTodayFriend(userDataset, setMyDataset, todayValues, coloursFriends)
   }, [todayValues])
 
   const data = {

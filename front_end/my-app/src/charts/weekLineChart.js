@@ -46,7 +46,7 @@ const weekLabels = () => {
   return comb
 }
 
-export const WeeklyChart = ({todayValues, user}) => {
+export const WeeklyChart = ({todayValues, user, coloursFriends}) => {
   const [friendsWeek, setFriendsWeek] = useState([])
 
   const initWeekly = async () => {
@@ -58,14 +58,15 @@ export const WeeklyChart = ({todayValues, user}) => {
       borderColor: 'rgb(47,255,0)',
       backgroundColor: 'rgba(47,255,0, 0.5)',
     }
-    initWeeklyFriend(userDataset)
+    initWeeklyFriend(userDataset, coloursFriends)
   }
 
-  const initWeeklyFriend = async (userDataset) => {
+  const initWeeklyFriend = async (userDataset, coloursFriends) => {
     const myFriendsWeekData = await friendData('week')
     const myFriendsDayData = await friendData('day')
     for (let i = 0; i < myFriendsWeekData.friendData.length; i++) {
       console.log('my friend in loop ', myFriendsWeekData.friendData[i])
+      myFriendsWeekData.friendData[i].colour = coloursFriends[i]
       myFriendsWeekData.friendData[i].list.push(myFriendsDayData.friendData[i].list)
     }
     const myFriendDataSet = myFriendsWeekData.friendData.map((friend) => {
@@ -74,8 +75,8 @@ export const WeeklyChart = ({todayValues, user}) => {
         {
           label: friend.name,
           data: friend.list,
-          borderColor: `${colour}`,
-          backgroundColor: `${colour}`,
+          borderColor: `${friend.colour}`,
+          backgroundColor: `${friend.colour}`,
         }
       )
     })
