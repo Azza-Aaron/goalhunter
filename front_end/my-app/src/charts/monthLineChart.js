@@ -38,10 +38,10 @@ const initMonthly = async (setMonthData, user, todayValues, myFriendsMonthData) 
 
 const initMonthFriends = async (userDataset, setMonthData, myFriendsMonthData) => {
   const myFriendsDayData = await friendData('day')
-  for (let i = 0; i < myFriendsMonthData.friendData.Length; i++) {
+  for (let i = 0; i < myFriendsMonthData.friendData.length; i++) {
     const friendDay = myFriendsDayData.friendData[i]
-    const dayVal = friendDay.list[friendDay.list.length -1]
-    myFriendsMonthData.friendData[i].list[3] += dayVal
+    const dayVal = friendDay.list
+    const sum = myFriendsMonthData.friendData[i].list[3] += dayVal
   }
   const resultDataSet = myFriendsMonthData.friendData.map((friend) => {
     const colour = coloursForDataset()
